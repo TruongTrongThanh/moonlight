@@ -1,8 +1,8 @@
 <template>
-  <div id="app">
-    <the-header></the-header>
-    <router-view/>
-  </div>
+<div id="app">
+  <the-header></the-header>
+  <router-view/>
+</div>
 </template>
 
 <script>
@@ -17,8 +17,37 @@ export default {
 </script>
 
 <style lang="scss">
-  html {
-    color: white;
-  }
-</style>
+html {
+  color: white;
+}
 
+.mid-content {
+  text-align: center;
+}
+
+.col-area-2 {
+  grid-column: span 2;
+}
+
+.col-area-3 {
+  grid-column: span 3;
+}
+
+.row-area-2 {
+  grid-row: span 2;
+}
+
+.row-area-3 {
+  grid-row: span 3;
+}
+
+.area-2 {
+  grid-row: span 2;
+  grid-column: span 2;
+}
+
+.area-3 {
+  grid-row: span 3;
+  grid-column: span 3;
+}
+</style>

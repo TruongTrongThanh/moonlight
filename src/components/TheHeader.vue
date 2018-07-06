@@ -62,6 +62,7 @@ export default {
     background-color: #676767;
     position: sticky;
     top: 0;
+    margin-bottom: 15px;
     display: inline-grid;
     font-family: 'Bitter', serif;
 

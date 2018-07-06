@@ -1,6 +1,5 @@
 import axios from 'axios'
 const apiURL = `/api/user`
-const apiURLDash = apiURL + '/'
 
 axios.defaults.withCredentials = true
 

@@ -32,7 +32,6 @@ router.onReady(() => {
         return c.asyncData({ store, router })
       }
     })
-    //promises.push(store.dispatch('currentUser', {hostname: null, token: null}))
 
     Promise.all(promises)
     .then(() => next())
