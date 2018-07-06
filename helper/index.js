@@ -149,7 +149,7 @@ module.exports = {
       }
     }
     else {
-      // If form doesn't contain username or password, check which one is missing.
+      // If form doesn't contain username or password, check which one is missing or both.
       if (!req.username || req.username === '')
         errors.message.push({ type: 'username', mess: 'Username is missing.' })
       if (!req.password || req.password === '')
