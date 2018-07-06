@@ -34,7 +34,7 @@ app.use('/auth', authRouter)
 app.use('/api/user', userRouter)
 
 
-// Server-side rendering
+// #region Setup Server-side rendering
 
 function createRenderer (bundle, options) {
   // https://github.com/vuejs/vue/blob/dev/packages/vue-server-renderer/README.md#why-use-bundlerenderer
@@ -123,7 +123,7 @@ async function render (req, res) {
   }
 }
 
-// Server-side rendering --END
+// #endregion Setup Server-side rendering
 
 app.get('*', isProd ? render : function (req, res) {
   readyPromise.then(() => {
