@@ -20,7 +20,7 @@ export default context => {
           })
         }
       })
-      promises.push(store.dispatch('currentUser', {hostname: context.hostname, token: context.token}))
+      promises.push(store.dispatch('currentUser', {token: context.token}))
 
       Promise.all(promises)
       .then(() => {

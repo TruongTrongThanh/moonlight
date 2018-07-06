@@ -1,4 +1,5 @@
 import axios from 'axios'
+const hostname = `http://192.168.1.119:8080`
 const apiURL = `/auth/`
 
 axios.defaults.withCredentials = true
@@ -17,9 +18,9 @@ export default {
     return axios.post(apiURL + 'logout')
   },
 
-  currentUser(hostname, token) {
+  currentUser(token) {
     console.log('API currentUser tracking --------------------------------------------------------')
-    if (hostname) {
+    if (token) {
       const config = {
         headers: {
           Cookie: `access_token=${token}`
@@ -28,7 +29,7 @@ export default {
       return axios.get(`${hostname}${apiURL}current-user`, config)
     }
     else {
-      return axios.get(`${apiURL}current-user`)
+      return axios.get(`${hostname}${apiURL}current-user`)
     }
   }
 }

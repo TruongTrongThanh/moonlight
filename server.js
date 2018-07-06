@@ -104,7 +104,6 @@ async function render (req, res) {
     const context = {
       title: 'Moonlight', // default title
       url: req.url,
-      hostname: `http://${await helper.getLocalIP()}`,
       token: req.cookies.access_token || null
     }
     renderer.renderToString(context, (err, html) => {

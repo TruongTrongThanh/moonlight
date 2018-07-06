@@ -46,9 +46,9 @@ export function createStore() {
           })
       },
 
-      currentUser(context, { hostname, token }) {
+      currentUser(context, { token }) {
         console.log('in store tracking --------------------------------------------------------')
-        return authAPI.currentUser(hostname, token)
+        return authAPI.currentUser(token)
           .then(res => {
             context.commit('setCurrentUser', res.data)
           })

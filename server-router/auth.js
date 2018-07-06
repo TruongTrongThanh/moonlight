@@ -64,7 +64,7 @@ router.post('/login', async function(req, res) {
     
     const token = helper.genAccessToken()
 
-    const auth = await global.db.collection('users').updateOne(
+    await global.db.collection('users').updateOne(
       { username: user.username },
       { $set: { accessToken: token } }
     )
