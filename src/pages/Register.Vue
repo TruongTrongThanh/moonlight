@@ -1,18 +1,37 @@
 <template>
   <div class="register">
-    <h1>Register</h1>
-    <input id="username" v-model="username" type="text" placeholder="username..."/>
-    <input v-model="email" type="email" placeholder="email..."/>
-    <input v-model="password" type="password" placeholder="password..."/>
-    <input v-model="passConfirm" type="password" placeholder="passowrd confirm..."/>
-    <button>RESET</button>
-    <button ref="submitButton" @click.prevent="submit" type="submit">SUBMIT</button>
+    <panel color="#27c6e2" padding="40px" templateCol="1fr">
+      <span slot="header">Register</span>
+
+      <div>
+        <input id="username" v-model="username" type="text" placeholder="username..."/>
+        <small>Your username cannot have space.</small>
+      </div>
+      <div>
+        <input v-model="email" type="email" placeholder="email..."/>
+        <small>Each account can only use one email.</small>
+      </div>
+      <div>
+        <input v-model="password" type="password" placeholder="password..."/>
+        <small>Password cannot be less than 6 characters.</small>
+      </div>
+      <div>
+        <input v-model="passConfirm" type="password" placeholder="password confirm..."/>
+        <small>Confirm your password.</small>
+      </div>
+      <custom-button color="#6cc949" ref="submitButton" @click.prevent="submit" type="submit">Become a member!</custom-button>
+    </panel>
   </div>
 </template>
 
 <script>
+import CustomButton from '@/CustomButton'
+
 export default {
   name: 'Register',
+  components: {
+    CustomButton
+  },
   title() {
     return 'Register - Moonlight'
   },
@@ -49,86 +68,42 @@ export default {
 
 <style lang="scss" scoped>
 
-  button {
-    cursor: pointer;
-  }
+button {
+  cursor: pointer;
+  height: 50px;
+  width: 70%;
+  justify-self: center;
+}
+
+small {
+  color: #949494;
+}
 
 @media only screen and (max-width: 768px) {
   .register {
-    width: 85%;
+    width: 92%;
     text-align: center;
     margin: 0 auto;
-
-    input {
-      box-sizing: border-box;
-      display: block;
-      width: 100%;
-      font-size: 1em;
-      height: 45px;
-      padding-left: 5px;
-      margin-bottom: 5px;
-    }
-    button {
-      width: 100%;
-      margin-bottom: 5px;
-      height: 45px;
-      border: none;
-      border-radius: 5px;
-      color: white;
-      font-size: bold;
-    }
-
-    button:first-of-type {
-      background-color: #d84c4ce6;
-    }
-
-    button:nth-of-type(2) {
-      background-color: green;
-    }
-  }
-}
-@media only screen and (min-width: 768px) {
-  .register {
-    width: 40%;
-    text-align: center;
-    margin: 0 auto;
-    background-color: white;
-    padding: 50px;
-    margin-top: 30px;
-    color: #676767;
-
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr 0.5fr;
 
     input {
       height: 40px;
-      font-size: 1em;
-      background-color: transparent;
-      border: none;
-      border-bottom: 2px solid black;
-      width: 90%;
+      font-size: 15px;
+      width: 100%;
     }
 
-    button {
-      width: 95%;
-      border: none;
-      border-radius: 5px;
-      color: white;
+    small {
+      display: none;
     }
+  }
+} 
+@media only screen and (min-width: 768px) {
+  .register {
+    width: 30%;
+    margin: 0 auto;
 
-    button:first-of-type {
-      grid-row-start: 4;
-      background-color: #d84c4ce6;
-    }
-
-    button:nth-of-type(2) {
-      justify-self: end;
-      background-color: #48aa48;
-    }
-
-    h1 {
-      grid-column: span 2;
+    input {
+      height: 30px;
+      width: 100%;
     }
   }
 }

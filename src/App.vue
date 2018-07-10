@@ -33,6 +33,10 @@ html {
   grid-column: span 3;
 }
 
+.col-area-4 {
+  grid-column: span 4;
+}
+
 .row-area-2 {
   grid-row: span 2;
 }

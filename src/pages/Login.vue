@@ -1,15 +1,18 @@
 <template>
   <div class="login">
-    <h1 class="area-2">Login</h1>
-    <input class="col-area-2" id="username" v-model="username" type="text" placeholder="Username or email..."/>
-    <input class="col-area-2" id="password" v-model="password" type="password" placeholder="Password..."/>
-    <div class="error">{{ errorText }}</div>
-    <div style="text-align: right; margin-bottom: 10px;"><input v-model="isRemember" type="checkbox"/>Remember me!</div>
-    <div>
-      <router-link class="col-area-2" :to="{ name: 'Register' }">Don't have an account?</router-link>
-      <div class="col-area-2">Forgot password?</div>
-    </div>
-    <button @click.prevent="login">LOGIN</button>
+    <panel color="#d32b78" templateCol="70% 1fr" padding="30px" rowGap="10px">
+      <span slot="header">Login</span>
+
+      <input class="col-area-2" id="username" v-model="username" type="text" placeholder="Username or email..."/>
+      <input class="col-area-2" id="password" v-model="password" type="password" placeholder="Password..."/>
+      <div class="error">{{ errorText }}</div>
+      <div style="text-align: right; margin-bottom: 10px;"><input v-model="isRemember" type="checkbox"/>Remember me!</div>
+      <div>
+        <router-link class="col-area-2" :to="{ name: 'Register' }">Don't have an account?</router-link>
+        <div class="col-area-2">Forgot password?</div>
+      </div>
+      <button @click.prevent="login">LOGIN</button>
+    </panel>
   </div>
 </template>
 
@@ -46,18 +49,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .login {
-    // Grid Setup
-    display: grid;
-    grid-template-columns: 70% 1fr;
-    grid-row-gap: 10px;
-    width: 40%;
-    margin: 0 auto;
+.panel {
+  width: 40%;
+  margin: 0 auto;
 
-    // Style
-    padding: 30px;
-    background-color: #ffffff1a;
-
+  .panel-content {
     > input {
       height: 30px;
     }
@@ -74,4 +70,11 @@ export default {
       color: red;
     }
   }
+}
+
+@media only screen and (max-width: 768px) {
+  .panel {
+    width: 92%;
+  }
+}
 </style>

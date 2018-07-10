@@ -3,6 +3,8 @@ import App from './App.vue'
 import { createRouter } from './router'
 import { createStore } from './store'
 
+import Panel from '@/Panel'
+
 import('Assets/logo.png')
 
 function getTitle(vm) {
@@ -21,6 +23,10 @@ export function createApp() {
   const store = createStore()
 
   Vue.mixin({
+    components: {
+      Panel
+    },
+
     created() {
       const title = getTitle(this)
       if (title && this.$ssrContext) {

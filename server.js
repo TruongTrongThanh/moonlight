@@ -18,7 +18,6 @@ require('./database')
 .catch(err => {
   console.log(err.message)
 })
-const helper = require('./helper')
 
 app.use(bodyParser.urlencoded({ extended: true })) // urlcoded
 app.use(bodyParser.json()) // Application/json
