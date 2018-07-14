@@ -2,10 +2,16 @@ import Vue from 'vue'
 import App from './App.vue'
 import { createRouter } from './router'
 import { createStore } from './store'
-
+import { config } from '@fortawesome/fontawesome-svg-core'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faSearch } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import Panel from '@/Panel'
 
 import('Assets/logo.png')
+
+library.add(faSearch)
+config.autoAddCss = false
 
 function getTitle(vm) {
   // components can simply provide a `title` option
@@ -21,6 +27,8 @@ function getTitle(vm) {
 export function createApp() {
   const router = createRouter()
   const store = createStore()
+
+  Vue.component('font-icon', FontAwesomeIcon)
 
   Vue.mixin({
     components: {

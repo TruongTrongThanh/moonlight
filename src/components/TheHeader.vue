@@ -1,23 +1,27 @@
 <template>
-  <div class="the-header">
-    <router-link tag="div" :to="{name: 'Home'}" class="brand"><img height="45" :src="require('Assets/brand.svg')"/></router-link>
-    <div @click.prevent="toggleDropdown" class="toggle"><img height="40" :src="require('Assets/menu.svg')"/></div>
-    <div ref="dropdown" class="dropdown">
-      <router-link :to="{name: 'Register'}" class="header-item" tag="div">Manga</router-link>
-      <div class="header-item">Visual Novel</div>
-      <router-link v-if="!currentUser" class="header-item divine" :to="{name: 'Register'}" tag='div'>
-        Register
-        <img height="21" :src="require('Assets/clipboard-with-pencil-.svg')"/>
-      </router-link>
-      <router-link v-if="!currentUser" class="header-item" :to="{name: 'Login'}" tag='div'>
-        Login
-        <img height="21" :src="require('Assets/login.svg')"/>
-      </router-link>
-      <div v-if="currentUser" @click="logout" class="header-item divine">Logout</div>
-      <div v-if="currentUser" class="header-item">{{ currentUser.username }}</div>
-      <div class="header-item search-box">
-        <input type="text"/>
-        <img height="20" :src="require('Assets/magnifier.svg')"/>
+  <div class="the-header navbar">
+    <div class="navbar-brand">
+      <img class="logo" :src="require('Assets/brand.svg')"/>
+    </div>
+    <div class="mobile-only">
+      <div class="navbar-item search-box">
+        <input type="text" placeholder="Search..."/><font-icon width=16 icon="search"/>
+      </div>
+    </div>
+    <div @click="toggle" class="navbar-toggle mobile-only">
+      |||
+    </div>
+    <div ref="menuList" class="navbar-list desktop-only">
+      <div class="navbar-start">
+        <div class="navbar-item">Genre</div>
+        <div class="navbar-item">Author</div>
+        <div class="navbar-item search-box desktop-only">
+          <input type="text" placeholder="Search..."/><font-icon width=20 icon="search"/>
+        </div>
+      </div>
+      <div class="navbar-end">
+        <div class="navbar-item">User</div>
+        <div class="navbar-item">Login</div>
       </div>
     </div>
   </div>
@@ -32,151 +36,142 @@ export default {
     }
   },
   methods: {
-    toggleDropdown() {
-      const dropdownElement = this.$refs['dropdown']
-      if (dropdownElement.classList.contains('expand'))
-        dropdownElement.classList.remove('expand')
+    toggle() {
+      const menuList = this.$refs.menuList
+      if (menuList.classList.contains('desktop-only'))
+        menuList.classList.remove('desktop-only')
       else
-        dropdownElement.classList.add('expand')
+        menuList.classList.add('desktop-only')
     },
+
     logout() {
       this.$store.dispatch('logout')
       .then(() => {
         this.$router.push({ name: 'Home' })
       })
     }
-  },
-  beforeRouteLeave(to, from, next)  {
-    this.toggleDropdown()
-    next()
   }
 }
 </script>
 
 <style lang="scss" scoped>
-@import url('https://fonts.googleapis.com/css?family=Bitter');
+.navbar {
+  display: grid;
+  background-color: white;
+  height: 60px;
+  color: black;
+  margin-bottom: 20px;
 
-  .the-header {
-    height: 57px;
-    width: 100%;
-    background-color: #676767;
-    position: sticky;
-    top: 0;
-    margin-bottom: 15px;
-    display: inline-grid;
-    font-family: 'Bitter', serif;
+  grid-template-columns: 1fr 4fr 1fr;
+  align-items: center;
 
-    .brand {
-      cursor: pointer;
+  .navbar-brand {
+    max-height: 60px;
+    text-align: center;
+  
+    .logo {
+      height: 60px;
+      transform: scale(0.65, 0.65);
     }
 
-    .header-item {
-      cursor: pointer;
-      img {
-        position: relative;
-        top: 4px;
-      }
-    }
-
-    .header-item.search-box {
-      cursor: auto;
-      input {
-        height: 25px;
-      }
-      img {
-        margin-left: 5px;
-        cursor: pointer;
-      }
+    .search-box {
+      display: inline-block;
     }
   }
 
-  @media screen and (max-width: 768px) {
-    .the-header {
-      grid-template-columns: 25% 1fr 25%;
-      align-items: center;
-
-      .brand {
-        text-align: center;
-      }
-
-      .dropdown {
-        display: none;
-      }
-
-      .toggle {
-        display: inline-block;
-        text-align: center;
-        grid-column-start: 3;
-        cursor: pointer;
-      }
+  .navbar-toggle {
+      justify-self: center;
+      cursor: pointer;
     }
-    .dropdown.expand {
-      display: inline-grid;
-      position: absolute;
-      top: 0;
-      margin-top: 57px;
-      align-items: center;
+
+  .navbar-item.search-box {
+    position: relative;
+    input {
+      outline: 0;
+      border-radius: 20px;
+      height: 35px;
       width: 100%;
+      box-sizing: border-box;
+      padding: 0 10px;
+      border: 1px solid rgba(0, 0, 0, 0.37);
+      font-size: 15px;
+    }
 
-      .header-item {
-        padding: 15px 17px;
-        display: block;
-        text-align: center;
-      }
+    .fa-search {
+      position: absolute;
+      top: 9px;
+      right: 11px;
+      transform: scale(1.2, 1.2);
+      color: rgba(0, 0, 0, 0.37);
+    }
 
-      .header-item:nth-child(even) {
-        background-color: #676767;
-      }
-      .header-item:nth-child(odd) {
-        background-color: #4e4e4e;
-      }
+    input:focus {
+      //border: 2px solid #0009;
+      box-shadow: 0 0 10px #0009;
+    }
 
-      .header-item.search-box {
-        input {
-          width: 80%;
-        }
-      }
+    input {
+      justify-self: end;
     }
   }
 
-  @media screen and (min-width: 768px) {
-    .the-header {
-      grid-template-columns: 7% 93%;
+  .navbar-list {
+    z-index: 1;
+    grid-column: span 3;
 
-      .header-item {
-        text-align: center;
-        height: 100%;
-        line-height: 57px;
+    .navbar-item {
+      display: block;
+      padding: 10px;
+      background-color: rgba(255, 255, 255, 0.89);
+    }
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .navbar {
+    grid-template-columns: 7% 1fr;
+
+    .navbar-brand {
+      max-height: 60px;
+
+      .logo {
+        height: 60px;
+        transform: scale(0.88, 0.88);
       }
+    }
 
-      .brand {
-        text-align: center;
+    .navbar-list {
+      display: grid;
+      grid-template-columns: 7fr 5fr;
+      grid-column: span 1;
+      align-items: center;
+      
+      .navbar-item {
+        display: inline-block;
+        font-size: 1.2em;
 
-        img {
-          position: relative;
-          top: 3px;
+        .fa-search {
+          top: 18px;
+          right: 25px;
+          transform: scale(0.95, 0.95);
         }
       }
 
-      .toggle {
-        display: none;
+      .navbar-start {
+        display: grid;
+        grid-template-columns: 1fr 1fr 7fr;
+        align-items: center;
+        justify-items: center;
+
+        .navbar-item.search-box {
+          width: 95%;
+        }
       }
 
-      .dropdown {
-        display: inline-grid;
-        grid-template-columns: 8% 8% 1fr 8% 8% 20%;
-
-        .header-item.divine {
-          grid-column-start: 4;
-        }
-
-        .header-item.search-box {
-          input {
-            width: 200px;
-          }
-        }
+      .navbar-end {
+        justify-self: end;
       }
     }
   }
-
+}
 </style>
