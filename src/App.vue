@@ -18,21 +18,10 @@ export default {
 
 <style lang="scss">
 @import 'assets/scss/reset';
+@import 'assets/scss/responsive';
 
 html {
   color: white;
-}
-
-@media only screen and (min-width: 768px) {
-  .mobile-only {
-    display: none !important;
-  }
-}
-
-@media only screen and (max-width: 768px) {
-  .desktop-only {
-    display: none !important;
-  }
 }
 
 .mid-content {

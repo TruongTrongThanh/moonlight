@@ -5,12 +5,14 @@ import { createStore } from './store'
 import { config } from '@fortawesome/fontawesome-svg-core'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
+import { faBars } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import Panel from '@/Panel'
 
 import('Assets/logo.png')
 
 library.add(faSearch)
+library.add(faBars)
 config.autoAddCss = false
 
 function getTitle(vm) {

@@ -3,15 +3,15 @@
     <div class="navbar-brand">
       <img class="logo" :src="require('Assets/brand.svg')"/>
     </div>
-    <div class="mobile-only">
-      <div class="navbar-item search-box">
+    <div class="navbar-mobile-list">
+      <div class="search-box">
         <input type="text" placeholder="Search..."/><font-icon width=16 icon="search"/>
       </div>
     </div>
-    <div @click="toggle" class="navbar-toggle mobile-only">
-      |||
+    <div @click="toggle" class="navbar-toggle">
+      <font-icon width=16 icon="bars"/>
     </div>
-    <div ref="menuList" class="navbar-list desktop-only">
+    <div ref="menuList" class="navbar-desktop-list is-close">
       <div class="navbar-start">
         <div class="navbar-item">Genre</div>
         <div class="navbar-item">Author</div>
@@ -19,9 +19,12 @@
           <input type="text" placeholder="Search..."/><font-icon width=20 icon="search"/>
         </div>
       </div>
-      <div class="navbar-end">
-        <div class="navbar-item">User</div>
-        <div class="navbar-item">Login</div>
+      <div v-if="currentUser" class="navbar-end">
+        <div class="navbar-item">{{ currentUser.username }}</div>
+      </div>
+      <div v-else class="navbar-end">
+        <router-link :to="{ name: 'Login' }" class="navbar-item">Login</router-link>
+        <router-link :to="{ name: 'Register' }" class="navbar-item">Register</router-link>
       </div>
     </div>
   </div>
@@ -38,10 +41,14 @@ export default {
   methods: {
     toggle() {
       const menuList = this.$refs.menuList
-      if (menuList.classList.contains('desktop-only'))
-        menuList.classList.remove('desktop-only')
-      else
-        menuList.classList.add('desktop-only')
+      if (menuList.classList.contains('is-open')) {
+        menuList.classList.remove('is-open')
+        menuList.classList.add('is-close')
+      }
+      else {
+        menuList.classList.remove('is-close')
+        menuList.classList.add('is-open')
+      }
     },
 
     logout() {
@@ -55,123 +62,40 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.navbar {
-  display: grid;
-  background-color: white;
-  height: 60px;
-  color: black;
-  margin-bottom: 20px;
+@import '../assets/scss/navbar';
 
-  grid-template-columns: 1fr 4fr 1fr;
-  align-items: center;
+.search-box {
+  position: relative;
+  display: inline-block;
+  width: 95%;
+  input {
+    border-radius: 20px;
+    height: 35px;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0 10px;
+    border: 1px solid rgba(0, 0, 0, 0.37);
+    font-size: 15px;
 
-  .navbar-brand {
-    max-height: 60px;
-    text-align: center;
-  
-    .logo {
-      height: 60px;
-      transform: scale(0.65, 0.65);
-    }
-
-    .search-box {
-      display: inline-block;
-    }
-  }
-
-  .navbar-toggle {
-      justify-self: center;
-      cursor: pointer;
-    }
-
-  .navbar-item.search-box {
-    position: relative;
-    input {
-      outline: 0;
-      border-radius: 20px;
-      height: 35px;
-      width: 100%;
-      box-sizing: border-box;
-      padding: 0 10px;
-      border: 1px solid rgba(0, 0, 0, 0.37);
-      font-size: 15px;
-    }
-
-    .fa-search {
-      position: absolute;
-      top: 9px;
-      right: 11px;
-      transform: scale(1.2, 1.2);
-      color: rgba(0, 0, 0, 0.37);
-    }
-
-    input:focus {
+    &:focus {
       //border: 2px solid #0009;
       box-shadow: 0 0 10px #0009;
     }
-
-    input {
-      justify-self: end;
-    }
   }
 
-  .navbar-list {
-    z-index: 1;
-    grid-column: span 3;
+  .fa-search {
+    position: absolute;
+    color: rgba(0, 0, 0, 0.37);
 
-    .navbar-item {
-      display: block;
-      padding: 10px;
-      background-color: rgba(255, 255, 255, 0.89);
+    top: 9px;
+    right: 11px;
+    transform: scale(1.2, 1.2);
+
+    @include for-tablet-portrait-up {
+      top: 18px;
+      right: 25px;
+      transform: scale(0.95, 0.95);
     }
-  }
-}
-
-@media screen and (min-width: 768px) {
-  .navbar {
-    grid-template-columns: 7% 1fr;
-
-    .navbar-brand {
-      max-height: 60px;
-
-      .logo {
-        height: 60px;
-        transform: scale(0.88, 0.88);
-      }
-    }
-
-    .navbar-list {
-      display: grid;
-      grid-template-columns: 7fr 5fr;
-      grid-column: span 1;
-      align-items: center;
-      
-      .navbar-item {
-        display: inline-block;
-        font-size: 1.2em;
-
-        .fa-search {
-          top: 18px;
-          right: 25px;
-          transform: scale(0.95, 0.95);
-        }
-      }
-
-      .navbar-start {
-        display: grid;
-        grid-template-columns: 1fr 1fr 7fr;
-        align-items: center;
-        justify-items: center;
-
-        .navbar-item.search-box {
-          width: 95%;
-        }
-      }
-
-      .navbar-end {
-        justify-self: end;
-      }
-    }
-  }
+  } 
 }
 </style>
