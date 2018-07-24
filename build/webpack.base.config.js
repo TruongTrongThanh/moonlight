@@ -30,7 +30,7 @@ module.exports = {
         loader: 'file-loader?name=favicon.ico'
       },
       {
-        test: /\.svg$/,
+        test: /\.(svg|png|jpg)$/,
         loader: 'file-loader'
       }
     ]

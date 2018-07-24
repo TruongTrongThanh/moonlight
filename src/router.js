@@ -5,6 +5,8 @@ const Home = () => import('Pages/Home')
 const Register = () => import('Pages/Register')
 const Login = () => import('Pages/Login')
 
+const MangaUpload = () => import('Pages/user/MangaUpload')
+
 Vue.use(Router)
 
 export function createRouter() {
@@ -25,6 +27,11 @@ export function createRouter() {
         path: '/login',
         name: 'Login',
         component: Login
+      },
+      {
+        path: '/manga-upload',
+        name: 'MangaUpload',
+        component: MangaUpload
       }
     ]
   })

@@ -66,6 +66,18 @@ export function createStore() {
           .catch(err => {
             console.log(err.response ? err.response.data : `Can't get to ${err.request._currentUrl}`)
           })
+      },
+
+      createManga(context, mangaData) {
+        var form = new FormData()
+        form.append('name', mangaData.name)
+        form.append('author', mangaData.author)
+        form.append('status', mangaData.status)
+        form.append('demographic', mangaData.demographic)
+        form.append('description', mangaData.description)
+        form.append('genreList', JSON.stringify(mangaData.genreList))
+        form.append('fileBinary', mangaData.fileBinary, 'cover.jpg')
+        return mangaAPI.create(form)
       }
     }
   })

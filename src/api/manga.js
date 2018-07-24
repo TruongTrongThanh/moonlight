@@ -1,5 +1,5 @@
 import axios from 'axios'
-const apiURL = `/api/`
+const apiURL = `http://localhost:8080/api/`
 const mangaURL = apiURL + 'manga'
 const mangaURLDash = mangaURL + '/'
 

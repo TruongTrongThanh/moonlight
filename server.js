@@ -28,9 +28,11 @@ global.upload = multer({ storage: storage }) // Multipart/form-data
 
 const authRouter = require('./server-router/auth')
 const userRouter = require('./server-router/user')
+const mangaRouter = require('./server-router/manga')
 
 app.use('/auth', authRouter)
 app.use('/api/user', userRouter)
+app.use('/api/manga', mangaRouter)
 
 
 // #region Setup Server-side rendering

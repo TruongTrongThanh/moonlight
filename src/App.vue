@@ -6,19 +6,24 @@
 </template>
 
 <script>
-import TheHeader from '@/TheHeader'
+const TheHeader = () => import('@/TheHeader')
 
 export default {
   name: 'App',
   components: {
     TheHeader
+  },
+  mounted() {
+    document.addEventListener("click", function(e) {
+      if (!e.target.classList.contains('avatar-toggle') && document.querySelector('.avatar-collpase') !== null)
+        document.querySelector('.avatar-collpase').classList.remove('is-active')
+    })
   }
 }
 </script>
 
 <style lang="scss">
 @import 'assets/scss/reset';
-@import 'assets/scss/responsive';
 
 html {
   color: white;

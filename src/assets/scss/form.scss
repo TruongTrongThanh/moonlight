@@ -1,0 +1,57 @@
+@import 'responsive';
+
+// font
+@import url('https://fonts.googleapis.com/css?family=Crete+Round');
+
+.form-control {
+    label {
+        font-size: 20px;
+        font-family: 'Crete Round', serif;
+        color: gold;
+    }
+
+    input[type='text'],
+    .input-group
+    {
+        height: 30px;
+        width: 400px;
+        display: block;
+        margin-left: 15px;
+        margin-top: 15px;
+    }
+
+    select {
+        margin-left: 10px;
+        height: 30px;
+    }
+
+    textarea {
+        width: 400px;
+        display: block;
+        margin-left: 15px;
+        margin-top: 15px;
+    }
+
+    input[type='file'] {
+        display: none;
+    }
+    .custom-file {
+        display: flex;
+        justify-content: space-between;
+
+        > div {
+            color: white;
+            padding: 10px;
+        }
+
+        > div:first-child {
+            background-color: #8a8a8a;
+            width: 80%;
+            text-align: left;
+        }
+        >div:last-child {
+            background-color: #666;
+            width: 20%;
+        }
+    }
+}

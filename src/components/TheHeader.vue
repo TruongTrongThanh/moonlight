@@ -1,14 +1,14 @@
 <template>
   <div class="the-header navbar">
     <div class="navbar-brand">
-      <img class="logo" :src="require('Assets/brand.svg')"/>
+      <router-link tag="img" :to="{ name: 'Home' }" class="logo" :src="require('Assets/brand.svg')"></router-link>
     </div>
     <div class="navbar-mobile-list">
       <div class="search-box">
         <input type="text" placeholder="Search..."/><font-icon width=16 icon="search"/>
       </div>
     </div>
-    <div @click="toggle" class="navbar-toggle">
+    <div @click="menuToggle" class="navbar-toggle">
       <font-icon width=16 icon="bars"/>
     </div>
     <div ref="menuList" class="navbar-desktop-list is-close">
@@ -20,11 +20,20 @@
         </div>
       </div>
       <div v-if="currentUser" class="navbar-end">
+        <div class="navbar-item avatar">
+          <img @click="avatarToggle" class="avatar-toggle" width=35 :src="require('Assets/noAvatar.png')"/>
+          <ul ref="avatarCollapse" class="avatar-collpase">
+            <li>My manga</li>
+            <router-link tag="li" :to="{ name: 'MangaUpload' }">Upload manga</router-link>
+            <li>Setting</li>
+            <li @click="logout">Logout</li>
+          </ul>
+        </div>
         <div class="navbar-item">{{ currentUser.username }}</div>
       </div>
       <div v-else class="navbar-end">
-        <router-link :to="{ name: 'Login' }" class="navbar-item">Login</router-link>
-        <router-link :to="{ name: 'Register' }" class="navbar-item">Register</router-link>
+        <router-link :to="{ name: 'Login' }" class="navbar-item">Login <font-icon width=16 icon="sign-in-alt"/></router-link>
+        <router-link :to="{ name: 'Register' }" class="navbar-item">Register <font-icon width=16 icon="sign-in-alt"/></router-link>
       </div>
     </div>
   </div>
@@ -39,7 +48,7 @@ export default {
     }
   },
   methods: {
-    toggle() {
+    menuToggle() {
       const menuList = this.$refs.menuList
       if (menuList.classList.contains('is-open')) {
         menuList.classList.remove('is-open')
@@ -50,7 +59,15 @@ export default {
         menuList.classList.add('is-open')
       }
     },
-
+    avatarToggle() {
+      console.log('avatar toggle')
+      const avaColl = this.$refs.avatarCollapse
+      if (avaColl.classList.contains('is-active'))
+        avaColl.classList.remove('is-active')
+      else
+        avaColl.classList.add('is-active')
+    },
+    
     logout() {
       this.$store.dispatch('logout')
       .then(() => {
@@ -63,6 +80,44 @@ export default {
 
 <style lang="scss" scoped>
 @import '../assets/scss/navbar';
+
+.navbar-item {
+  > svg {
+    position: relative;
+    top: 3px;
+  }
+
+  &.avatar {
+    padding: 0 !important;
+    position: relative;
+    cursor: pointer;
+
+    .avatar-collpase {
+      position: absolute;
+      width: 150px;
+      background-color: white;
+      left: -58px;
+      border: 1px solid black;
+
+      li {
+        display: block;
+        //@include user-select(none);
+        border-bottom: 1px solid black;
+        text-align: center;
+        padding: 10px;
+      }
+
+      display: none;
+      &.is-active {
+        display: block;
+      }
+    }
+
+    img {
+      border-radius: 20px;
+    }
+  }
+}
 
 .search-box {
   position: relative;
