@@ -4,8 +4,9 @@ const helper = require('../helper')
 
 router.post('/', global.upload.single('fileBinary'), async function (req, res) {
   try {
-    console.log(req.body)
-    console.log(req.file)
+    const validated = await helper.validateManga(req.body, req.file.buffer)
+    console.log(validated)
+    await global.db.collection('mangas').insertOne(validated)
     res.sendStatus(200)
   }
   catch (err) {

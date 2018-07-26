@@ -9,7 +9,7 @@
     "start": "set NODE_ENV=production&& node server.js",
     "dev-server": "nodemon server.js",
     "dev-client": "npm run db-start && node server.js",
-    "db-start": "start cmd /c \"mongod --dbpath=C:/Users/tripl/OneDrive/Documents/MongoDB\""
+    "db-start": "start powershell \"mongod --dbpath=C:/Users/tripl/OneDrive/Documents/MongoDB\""
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.0",
@@ -40,6 +40,7 @@
     "vue-style-loader": "^4.1.0",
     "vue-svg-loader": "^0.5.0",
     "vue-template-compiler": "^2.5.16",
+    "nodemon": "^1.18.3",
     "webpack": "^4.9.1",
     "webpack-cli": "^2.1.4",
     "webpack-dev-middleware": "^3.1.3",

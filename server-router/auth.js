@@ -28,9 +28,7 @@ router.get('/current-user', async function(req, res) {
   try {
     if (req.cookies.access_token) {
       const token = req.cookies.access_token
-      const user = await global.db.collection('users').findOne(
-        { accessToken: token }
-      )
+      const user = await helper.authorizeUser(token, global.db)
       if (user) {
         res.send({
           id: user._id,
@@ -59,27 +57,15 @@ router.post('/login', async function(req, res) {
 
     if (!user) throw {code: 400, message: 'username or password are wrong.'}
 
-    const isRight = await helper.compareHash(req.body.password, user.password)
-    if (!isRight) throw {code: 400, message: 'username or password are wrong.'}
-    
-    const token = helper.genAccessToken()
+    const isWrong = await helper.compareHash(req.body.password, user.password)
+    if (isWrong) throw {code: 400, message: 'username or password are wrong.'}
 
-    await global.db.collection('users').updateOne(
-      { username: user.username },
-      { $set: { accessToken: token } }
-    )
-
-    //res.header('Set-Cookie', `access_token=${token}; ${req.body.remember ? 'Max-Age=31556926' : ''}; Domain=localhost; Path=/; HttpOnly`)
     let expiredTime = new Date(new Date().setFullYear(new Date().getFullYear() + 1))
-    res.cookie('access_token', token, {
+    res.cookie('access_token', user.acessToken, {
       expires: req.body.remember ? expiredTime : null,
-      httpOnly: true,
-      //domain: await helper.getLocalIP(),
-      //path: '/'
+      httpOnly: true
     })
-    res.send({
-      username: user.username
-    })
+    res.send({ username: user.username })
   }
   catch (err) {
     res.status(err.code || 500).send(err.message)
@@ -88,6 +74,13 @@ router.post('/login', async function(req, res) {
 
 router.post('/logout', async function(req, res) {
   try {
+    const token = helper.genAccessToken()
+
+    await global.db.collection('users').updateOne(
+      { username: user.username },
+      { $set: { accessToken: token } }
+    )
+
     res.clearCookie('access_token')
     res.sendStatus(200)
   }

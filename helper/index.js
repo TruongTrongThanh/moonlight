@@ -1,6 +1,8 @@
 const bcrypt = require('bcrypt')
 const crypto = require('crypto')
 const saltRounds = 10
+const axios = require('axios')
+const imgurClientId = '59c58c5c1e63bf5'
 const port = process.env.PORT || 8080
 
 module.exports = {
@@ -168,7 +170,23 @@ module.exports = {
 
     return finalReq
   },
-
+  uploadImage: function (img, server = 'local') {
+    if (server == 'imgur') { 
+      const config = {
+        headers: {
+          Authorization: "Client-ID " + imgurClientId
+        }
+      }
+      return axios.post('https://api.imgur.com/3/image', img, config)
+    }
+    else
+      return null
+  },
+  validateManga: async function (info, coverImg) {
+    let response = await this.uploadImage(coverImg, 'imgur')
+    info.coverURL = response.data.data.link
+    return info
+  },
   /**
    * Hashing string with 10 salt rounds.
    * @param {String} password String need to hash.
@@ -194,7 +212,16 @@ module.exports = {
   genAccessToken: function () {
     return crypto.randomBytes(32).toString('hex')
   },
-
+  /**
+   * @param {String} accessToken Access Token from cookie.
+   * @param {Object} db Database param.
+   * @return User Instance.
+   */
+  authorizeUser: function (accessToken, db) {
+    return db.collection('users').findOne(
+      { accessToken: accessToken }
+    )
+  },
   /**
    * Get local IP of current server.
    * @param includePort Set this false in case you don't want to include port.
